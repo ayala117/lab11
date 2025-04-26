@@ -2,14 +2,14 @@
 CREATE OR REPLACE PROCEDURE insert_or_update_user(name TEXT, phone TEXT)
 AS $$
 BEGIN
-    -- Пайдаланушының бар екенін тексеру
+   
     IF EXISTS (SELECT 1 FROM phonebook WHERE first_name = name) THEN
-        -- Егер бар болса, телефонды жаңарту
+        
         UPDATE phonebook
         SET phone_number = phone
         WHERE first_name = name;
     ELSE
-        -- Егер жоқ болса, жаңа пайдаланушы енгізу
+        
         INSERT INTO phonebook (first_name, phone_number)
         VALUES (name, phone);
     END IF;
