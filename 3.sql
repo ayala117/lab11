@@ -1,4 +1,4 @@
--- 3.sql файлы
+
 CREATE OR REPLACE PROCEDURE insert_multiple_users(users TEXT[])
 LANGUAGE plpgsql
 AS $$
@@ -9,13 +9,13 @@ DECLARE
     incorrect_data TEXT[] := '{}';
 BEGIN
     FOREACH item IN ARRAY users LOOP
-        -- Аты мен телефонды бөлу
+        
         name := trim(both ' ' from split_part(item, ',', 1));
         phone := trim(both ' ' from split_part(item, ',', 2));
 
-        -- Телефон тек сандардан тұру керек
+       
         IF phone ~ '^\d{10,15}$' THEN
-            -- Егер бар болса — жаңарту, болмаса — қосу
+           
             IF EXISTS (SELECT 1 FROM phonebook WHERE first_name = name) THEN
                 UPDATE phonebook
                 SET phone_number = phone
@@ -29,8 +29,8 @@ BEGIN
         END IF;
     END LOOP;
 
-    -- Қате деректерді көрсету
-    RAISE NOTICE 'Қате деректер: %', incorrect_data;
+   
+    RAISE NOTICE 'incorrect_data: %', incorrect_data;
 END;
 $$;
 
@@ -40,7 +40,7 @@ $$;
 --     'Lara,1234567890', 
 --     'Max,87771234567'
 -- ]); 
--- NOTICE:  Қате деректер: {}
+-- NOTICE: incorrect_data: {}
 -- CALL
 -- phonebook=# SELECT * FROM phonebook;
 --  id | first_name | last_name | phone_number 
