@@ -3,14 +3,14 @@
 CREATE OR REPLACE PROCEDURE delete_user_data(identifier TEXT)
 AS $$
 BEGIN
-    -- Пайдаланушыны аты бойынша өшіру
+    
     IF EXISTS (SELECT 1 FROM phonebook WHERE first_name = identifier) THEN
         DELETE FROM phonebook WHERE first_name = identifier;
-    -- Пайдаланушыны телефон нөмірі бойынша өшіру
+
     ELSIF EXISTS (SELECT 1 FROM phonebook WHERE phone_number = identifier) THEN
         DELETE FROM phonebook WHERE phone_number = identifier;
     ELSE
-        RAISE NOTICE 'Пайдаланушы табылмады';
+        RAISE NOTICE 'user not found';
     END IF;
 END;
 $$ LANGUAGE plpgsql;
